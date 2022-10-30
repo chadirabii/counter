@@ -1,104 +1,60 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Alert, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
+import tw from "twrnc";
 
-const Counter = () => {
+const App = () => {
   const [count, setCount] = useState(0);
 
+  const increment = () => {
+    setCount((prevState) => prevState + 1);
+  };
+  const decrement = () => {
+    if (count === 0) {
+      return Alert.alert("Error", "cannot decrement below 0");
+    }
+    setCount((prevState) => prevState - 1);
+  };
+  const reset = (val) => {
+    setCount(val);
+  };
   return (
     <View style={styles.container}>
-      <Text style={styles.Rzlt}>{count}</Text>
-      <View style={{ flexDirection: "row" }}>
-        <Text
-          style={styles.Plus}
-          onPress={() => {
-            setCount(count + 1);
-          }}
+      <Text style={tw`text-red-500 text-3xl font-bold`}>{count}</Text>
+      <View style={tw`flex-row  `}>
+        <TouchableOpacity
+          onPress={increment}
+          style={tw`bg-blue-500 px-4 py-2 flex justify-center items-center rounded-lg mr-2`}
         >
-          +1
-        </Text>
-        <Text
-          style={styles.Minus}
-          disabled={count === 0}
-          onPress={() => {
-            setCount(count - 1);
-          }}
+          <Text>Increment</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          // disabled={count === 0 ? true : false}
+          onPress={decrement}
         >
-          -1
-        </Text>
+          <Text
+            style={tw`bg-[#dc2626] px-4 py-2 flex justify-center items-center rounded-lg `}
+          >
+            Decrement
+          </Text>
+        </TouchableOpacity>
       </View>
-      <Text
-        style={styles.Reset}
-        disabled={count === 0}
-        onPress={() => {
-          setCount(0);
-        }}
+      <TouchableOpacity
+        disabled={count === 0 ? true : false}
+        style={tw`bg-[#f59e0b] px-4 py-2 flex justify-center items-center rounded-lg w-[52] mt-2 `}
+        onPress={() => reset(0)}
       >
-        Reset
-      </Text>
+        <Text>Reset</Text>
+      </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 10,
-    backgroundColor: "#fff",
-    alignItems: "center",
+    flex: 1,
     justifyContent: "center",
-    display: "flex",
-  },
-  Plus: {
-    marginTop: 16,
-    paddingVertical: 5,
-    height: 50,
-    width: 100,
-    borderWidth: 1,
-    borderColor: "#20232a",
-    borderRadius: 50,
-    backgroundColor: "#00b32c",
-    color: "#20232a",
-    textAlign: "center",
-    fontSize: 27,
-    fontWeight: "bold",
-  },
-  Minus: {
-    marginLeft: 10,
-    marginTop: 16,
-    shadowColor: "black",
-    paddingVertical: 5,
-    height: 50,
-    width: 100,
-    borderWidth: 1,
-    borderColor: "#20232a",
-    borderRadius: 50,
-    backgroundColor: "#e40010",
-    color: "#20232a",
-    textAlign: "center",
-    fontSize: 27,
-    fontWeight: "bold",
-  },
-  Reset: {
-    marginTop: 16,
-    paddingVertical: 5,
-    height: 50,
-    width: 200,
-    borderWidth: 1,
-    borderColor: "#20232a",
-    borderRadius: 30,
-    backgroundColor: "#ffc537",
-    color: "#20232a",
-    textAlign: "center",
-    fontSize: 27,
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-
-  Rzlt: {
-    fontSize: 30,
-    fontWeight: "bold",
-    fontSize: 50,
-    color: "#7f8c8d",
+    alignItems: "center",
   },
 });
 
-export default Counter;
+export default App;
